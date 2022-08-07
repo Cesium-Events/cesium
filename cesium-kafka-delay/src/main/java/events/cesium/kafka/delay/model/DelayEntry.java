@@ -2,10 +2,10 @@ package events.cesium.kafka.delay.model;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.annotation.Nonnull;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 
@@ -56,5 +56,9 @@ public class DelayEntry implements Delayed {
     @Override
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    public String toString() {
+        return ToStringBuilder.reflectionToString(ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

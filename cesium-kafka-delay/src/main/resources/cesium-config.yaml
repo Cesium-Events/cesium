@@ -1,38 +1,25 @@
-events.cesium.kafka.delay.producer.DelayProducer:
+events.cesium.kafka.delay.producer.DestinationKafkaProducer:
     Topic:
-        test-delay-output
+        test-delay-destination
     KafkaConfig:
-        bootstrap.servers: 127.0.0.1:9092
+        bootstrap.servers: localhost:9092
 
-events.cesium.kafka.delay.consumer.DelayConsumer:
+events.cesium.kafka.delay.consumer.SourceKafkaConsumer:
     Topic:
-         test-delay-input
+         test-delay-source
     KafkaConfig:
-        bootstrap.servers: 127.0.0.1:9092
+        bootstrap.servers: localhost:9092
         group.id: delay-consumer-group
 
-events.cesium.kafka.delay.consumer.DelaySeekConsumer:
-    Topic:
-         test-delay-input
-    KafkaConfig:
-        bootstrap.servers: 127.0.0.1:9092
-
-events.cesium.kafka.delay.producer.DelayTrackerProducer:
+events.cesium.kafka.delay.producer.TrackerKafkaProducer:
     Topic:
         delay-tracker
     KafkaConfig:
-        bootstrap.servers: 127.0.0.1:9092
+        bootstrap.servers: localhost:9092
 
-events.cesium.kafka.delay.consumer.DelayTrackerConsumer:
+events.cesium.kafka.delay.consumer.TrackerKafkaConsumer:
     Topic:
          delay-tracker
     KafkaConfig:
-        bootstrap.servers: 127.0.0.1:9092
+        bootstrap.servers: localhost:9092
         group.id: delay-consumer-group
-
-events.cesium.kafka.delay.consumer.DelayTrackerRebalanceConsumer:
-    Topic:
-         delay-tracker
-    KafkaConfig:
-        bootstrap.servers: 127.0.0.1:9092
-        

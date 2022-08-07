@@ -28,7 +28,7 @@ public class CesiumConfig {
 
         // If the runtime environment is specified as a property, also get that config
         // and merge them together
-        if (environment == null || environment.trim().isEmpty()) {
+        if (environment != null && !environment.trim().isEmpty()) {
             props.putAll(configSource.getConfiguration(new ImmutableEnvironment(environment)));
         }
     }
@@ -110,10 +110,6 @@ public class CesiumConfig {
      *   val1->foo
      *   val2->bar
      * </pre>
-     * 
-     * @param clazz
-     * @param propName
-     * @return
      */
     public Properties getProperties(@SuppressWarnings("rawtypes") Class clazz, String propName) {
         Properties configProps = new Properties();
@@ -122,7 +118,7 @@ public class CesiumConfig {
         for (Entry<Object, Object> entry : props.entrySet()) {
             String prop = String.valueOf(entry.getKey());
             if (prop.startsWith(prefix)) {
-                String key = prop.substring(prefix.length() + 1);
+                String key = prop.substring(prefix.length());
                 configProps.put(key, String.valueOf(entry.getValue()));
             }
         }
@@ -141,7 +137,7 @@ public class CesiumConfig {
         return sb.toString();
     }
 
-    public static final void main(String[] args) {
+    public static void main(String[] args) {
         System.out.println(new CesiumConfig("home"));
     }
 }

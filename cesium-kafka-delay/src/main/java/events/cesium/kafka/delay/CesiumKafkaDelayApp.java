@@ -4,11 +4,12 @@ import java.util.concurrent.DelayQueue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import events.cesium.kafka.delay.worker.DelayTrackerWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import events.cesium.kafka.delay.model.DelayEntry;
-import events.cesium.kafka.delay.worker.DelayTrackerConsumerWorker;
+import events.cesium.kafka.delay.worker.DelayTrackerWorker;
 
 public class CesiumKafkaDelayApp {
 
@@ -16,7 +17,7 @@ public class CesiumKafkaDelayApp {
 
     private final CesiumConfig cesiumConfig;
 
-    private DelayTrackerConsumerWorker delayTrackerConsumerWorker;
+    private DelayTrackerWorker delayTrackerWorker;
 
     private final DelayQueue<DelayEntry> delayQueue = new DelayQueue<>();
     private final Lock sharedLock = new ReentrantLock();
@@ -29,11 +30,12 @@ public class CesiumKafkaDelayApp {
     public synchronized void startProcessingDelays() {
         // Create the tracker consumer worker to fill up the delay queue in
         // initialization
-//        delayTrackerConsumerWorker = new DelayTrackerConsumerWorker(cesiumConfig, delayQueue, sharedLock);
+        delayTrackerWorker = new DelayTrackerWorker(cesiumConfig);
+        delayTrackerWorker.beginProcessing();
     }
 
     public synchronized void stopProcessingDelays() {
-
+        delayTrackerWorker.triggerShutdown();
     }
 
     public static void main(String[] args) {
@@ -42,14 +44,9 @@ public class CesiumKafkaDelayApp {
         app.startProcessingDelays();
 
         try {
-            while (true) {
-                try {
-                    Thread.sleep(Long.MAX_VALUE);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    return;
-                }
-            }
+            Thread.sleep(Long.MAX_VALUE);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } finally {
             app.stopProcessingDelays();
         }
