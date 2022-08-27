@@ -40,4 +40,6 @@ At the same time this same information will be stored in memory in a DelayQueue 
 The offsets on the tracking queue are set programmatically so on process restart, the offsets will be on the oldest unsent message.  The consumers can read the tracking stream to the latest message in order to rebuild the delayQueue in memory by adding entries with positive offsets and then removing them if it reads an entry with a negative offset of the same value.  This also happens when partitions are rebalanced, so the delay queue is properly rebuilt.
 
 # Project Status
-This project is a hobby and proof of concept at this point.  It is used to explore usage of Kafka and the possibilites of building an even scheduler at scale.  There are no current plans to make this an actual product.
+This pre-release project is very much a hobby and proof of concept at this point.  It is used to explore usage of Kafka and the possibilites of building an event scheduler at scale.  It definitely needs cleanup, but comments and suggestions are welcome.  There are no current plans to make this an actual product.
+
+*Expect Bugs!*
